@@ -14,6 +14,7 @@ const DB = {
     { id: 1, slug: 'drone',    label: 'Tactical Drone',   color: '#FFD700' },
     { id: 2, slug: 'counter',  label: 'Counter-Drone',    color: '#ff6b6b' },
     { id: 3, slug: 'robotics', label: 'Robotics',         color: '#00ff88' },
+    { id: 4, slug: 'swarm',    label: 'Swarm Tech',       color: '#ffaa00' },
   ],
 
   products: [
@@ -143,6 +144,19 @@ const DB = {
         'Sea State': 'SS5 operational', 'Draft': '0.6 m',
       }
     },
+    {
+      id: 10, category: 'robotics', name: 'MOLE-X TUNNEL EXPLORER',
+      icon: '⛏', tag: 'UNDERGROUND UGV',
+      desc: 'Compact subterranean UGV engineered for underground tunnel mapping, IED detection, and subterranean reconnaissance in denied environments.',
+      keyMetric: 'WIDTH: 35 CM',
+      range: '2 KM', aiLevel: 'AUTONOMOUS', status: 'ACTIVE',
+      specs: {
+        'Subterranean Mapping': 'GPR + 3D SLAM', 'Width': '35 cm compact',
+        'Runtime': '6 hours battery', 'Sensors': 'Ground Penetrating Radar',
+        'Max Speed': '8 km/h', 'Protection': 'IP68 waterproof/dustproof',
+        'Payload': '15 kg modular bay', 'C2 Range': '2 km subterranean relay',
+      }
+    },
   ],
 
   /* SQL-style query engine */
@@ -150,7 +164,11 @@ const DB = {
     const { table, where, search } = sql;
     let results = [...this[table]];
     if (where && where.category !== 'all') {
-      results = results.filter(r => r.category === where.category);
+      if (where.category === 'swarm') {
+        results = results.filter(r => r.category === 'swarm' || r.tag.toLowerCase().includes('swarm'));
+      } else {
+        results = results.filter(r => r.category === where.category);
+      }
     }
     if (search) {
       const q = search.toLowerCase();
@@ -800,15 +818,19 @@ class RobotScene {
     dl2.position.set(-3, 2, -2);
     this.scene.add(dl2);
 
-    this._buildHexapod();
-    this._animate();
-
-    window.addEventListener('resize', () => {
-      const w2 = this.canvas.offsetWidth;
-      this.renderer.setSize(w2, 280);
-      this.camera.aspect = w2 / 280;
+    const resizeHandler = () => {
+      if (!this.canvas || !this.canvas.parentElement) return;
+      const w2 = this.canvas.parentElement.offsetWidth;
+      const h2 = Math.min(Math.max(w2 * 0.55, 200), 280);
+      this.renderer.setSize(w2, h2);
+      this.camera.aspect = w2 / h2;
       this.camera.updateProjectionMatrix();
-    });
+    };
+    resizeHandler();
+    window.addEventListener('resize', resizeHandler);
+    if (this.canvas.parentElement && typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(resizeHandler).observe(this.canvas.parentElement);
+    }
   }
 
   _buildHexapod() {
@@ -1071,6 +1093,9 @@ class RadarSimulator {
     this._loop();
 
     window.addEventListener('resize', () => this.resize());
+    if (this.canvas.parentElement && typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(() => this.resize()).observe(this.canvas.parentElement);
+    }
   }
 
   resize() {
@@ -1777,14 +1802,28 @@ class CursorManager {
 
 
 /* ═══════════════════════════════════════════
-   NAVBAR SCROLL BEHAVIOR
+   NAVBAR & HUD TICKER BEHAVIOR
 ══════════════════════════════════════════════ */
 function initNavbar() {
   const navbar = document.getElementById('navbar');
+  const hudClock = document.getElementById('hudClock');
+
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) navbar.classList.add('scrolled');
+    if (window.scrollY > 30) navbar.classList.add('scrolled');
     else navbar.classList.remove('scrolled');
   });
+
+  // Live HUD Clock update
+  function updateClock() {
+    if (!hudClock) return;
+    const now = new Date();
+    const hrs = String(now.getUTCHours()).padStart(2, '0');
+    const mins = String(now.getUTCMinutes()).padStart(2, '0');
+    const secs = String(now.getUTCSeconds()).padStart(2, '0');
+    hudClock.textContent = `${hrs}:${mins}:${secs} UTC`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
 
   // Active link highlight
   const sections = document.querySelectorAll('section[id]');
@@ -2051,6 +2090,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Modal
   ProductModal.init();
+  GalleryModal.init();
+  initRoboticsButtons();
 
   // Custom cursor
   const cursorManager = new CursorManager();
@@ -2065,6 +2106,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('%c✅ AEROFORCE SYSTEMS FULLY OPERATIONAL', 'color:#FFD700;font-family:monospace;font-size:14px;font-weight:bold');
 });
+
+/* ═══════════════════════════════════════════
+   GALLERY LIGHTBOX MODAL
+══════════════════════════════════════════════ */
+const GalleryModal = {
+  overlay: null,
+  content: null,
+
+  init() {
+    this.overlay = document.getElementById('galleryModal');
+    this.content = document.getElementById('galleryModalContent');
+    const closeBtn = document.getElementById('galleryModalCloseBtn');
+    if (closeBtn) closeBtn.addEventListener('click', () => this.close());
+    if (this.overlay) {
+      this.overlay.addEventListener('click', (e) => {
+        if (e.target === this.overlay) this.close();
+      });
+    }
+
+    document.querySelectorAll('#galleryGrid .gallery-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        const tag = item.querySelector('.gallery-tag');
+        const title = item.querySelector('.gallery-title');
+        const meta = item.querySelector('.gallery-meta');
+        if (img) {
+          this.open({
+            src: img.getAttribute('src'),
+            alt: img.getAttribute('alt'),
+            tag: tag ? tag.textContent : 'OPERATIONAL MEDIA',
+            title: title ? title.textContent : 'FIELD DEMONSTRATION',
+            meta: meta ? meta.textContent : ''
+          });
+        }
+      });
+    });
+  },
+
+  open(data) {
+    if (!this.overlay || !this.content) return;
+    this.content.innerHTML = `
+      <img src="${data.src}" alt="${data.alt}" class="gallery-modal-img">
+      <div class="gallery-modal-info">
+        <span class="gallery-modal-tag">${data.tag}</span>
+        <h3 class="gallery-modal-title">${data.title}</h3>
+        <p class="gallery-modal-meta">${data.meta}</p>
+        <button class="btn-form-submit" style="margin-top:16px" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});GalleryModal.close()">
+          <span>REQUEST CLASSIFIED MEDIA BRIEFING</span><span>➤</span>
+        </button>
+      </div>
+    `;
+    this.overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  },
+
+  close() {
+    if (this.overlay) this.overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+window.GalleryModal = GalleryModal;
+
+/* ═══════════════════════════════════════════
+   ROBOTICS BUTTONS HANDLER
+══════════════════════════════════════════════ */
+function initRoboticsButtons() {
+  document.querySelectorAll('.btn-rbot[data-product]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.dataset.product.toUpperCase();
+      const product = DB.products.find(p => p.name.includes(code) || p.name.startsWith(code));
+      if (product) {
+        ProductModal.open(product);
+      } else {
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+}
 
 /* ═══════════════════════════════════════════
    GALLERY FILTER
@@ -2145,4 +2264,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 })();
+
+/* ═══════════════════════════════════════════
+   RADAR COVERAGE & PROBABILITY CALCULATOR
+══════════════════════════════════════════════ */
+(function initRadarCalculator() {
+  const radarPowerInput = document.getElementById('radarPower');
+  const rcsTargetInput = document.getElementById('rcsTarget');
+  const radarPowerNum = document.getElementById('radarPowerNum');
+  const rcsTargetNum = document.getElementById('rcsTargetNum');
+  const calcRangeOutput = document.getElementById('calcRangeVal');
+  const calcProbOutput = document.getElementById('calcProbVal');
+  const calcReactOutput = document.getElementById('calcReactVal');
+
+  if (!radarPowerInput || !rcsTargetInput) return;
+
+  function updateCalculator() {
+    const power = parseFloat(radarPowerInput.value); // in kW
+    const rcs = parseFloat(rcsTargetInput.value);   // in m2
+
+    if (radarPowerNum) radarPowerNum.innerText = `${power} kW`;
+    if (rcsTargetNum) rcsTargetNum.innerText = `${rcs} m²`;
+
+    // Radar Equation R ~ (Power * RCS)^(1/4) * constant
+    const maxRangeKm = Math.round(Math.pow(power * 15 * rcs * 10, 0.28) * 1.8);
+    const interceptProb = Math.min(99, Math.round(82 + (power / 10) - (rcs < 0.1 ? 12 : 0)));
+    const reactionSec = (maxRangeKm * 3.2).toFixed(1);
+
+    if (calcRangeOutput) calcRangeOutput.innerText = `${maxRangeKm} km`;
+    if (calcProbOutput) calcProbOutput.innerText = `${interceptProb}%`;
+    if (calcReactOutput) calcReactOutput.innerText = `${reactionSec}s`;
+  }
+
+  radarPowerInput.addEventListener('input', updateCalculator);
+  rcsTargetInput.addEventListener('input', updateCalculator);
+  updateCalculator();
+})();
+
 

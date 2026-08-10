@@ -34,6 +34,22 @@
 </head>
 
 <body>
+  <!-- HUD TOP TICKER -->
+  <div class="hud-ticker">
+    <div class="nav-container hud-ticker-content">
+      <div class="hud-ticker-left">
+        <span class="hud-status-badge">
+          <span class="hud-status-dot"></span> DEFCON 1 // RADAR ACTIVE
+        </span>
+        <span class="hud-location"><span class="hud-icon">&#9678;</span> GRID LOCK: LAT 34.0522° N, LON 118.2437° W</span>
+      </div>
+      <div class="hud-ticker-right">
+        <span class="hud-system-status">SAT-LINK: SECURED (AES-256) &middot; RADAR: 24.8 GHz &middot; BANDWIDTH: 4.8 TB/S</span>
+        <span class="hud-clock" id="hudClock">--:--:-- UTC</span>
+      </div>
+    </div>
+  </div>
+
   <!-- CUSTOM CURSOR -->
   <div class="cursor-outer" id="cursorOuter"></div>
   <div class="cursor-inner" id="cursorInner"></div>
@@ -49,16 +65,16 @@
     <div class="nav-container">
       <a href="#" class="brand-logo">
         <div class="brand-hexagon">
-          <svg viewBox="0 0 60 60" width="42" height="42">
+          <svg viewBox="0 0 60 60" width="44" height="44">
             <polygon points="30,2 58,17 58,43 30,58 2,43 2,17" fill="none" stroke="#FFD700" stroke-width="2" />
-            <polygon points="30,10 50,21 50,39 30,50 10,39 10,21" fill="rgba(255,215,0,0.08)" stroke="#FFD700"
-              stroke-width="1" stroke-dasharray="3,3" />
-            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Orbitron" font-size="14"
+            <polygon points="30,10 50,21 50,39 30,50 10,39 10,21" fill="rgba(255,215,0,0.12)" stroke="#FFD700"
+              stroke-width="1.5" stroke-dasharray="4,2" />
+            <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Orbitron" font-size="14"
               fill="#FFD700" font-weight="900">AF</text>
           </svg>
         </div>
         <div class="brand-text">
-          <span class="brand-name">AEROFORCE</span>
+          <span class="brand-name">AEROFORCE<span class="brand-accent">.</span></span>
           <span class="brand-sub">SYSTEMS // ADVANCED DEFENSE</span>
         </div>
       </a>
@@ -66,24 +82,30 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="#hero" class="nav-link active">HOME</a></li>
         <li><a href="#products" class="nav-link">PRODUCTS</a></li>
-        <li><a href="#technology" class="nav-link">TECHNOLOGY</a></li>
+        <li><a href="#technology" class="nav-link">TECH</a></li>
         <li><a href="#robotics" class="nav-link">ROBOTICS</a></li>
         <li><a href="#specifications" class="nav-link">SPECS DB</a></li>
         <li><a href="#radar" class="nav-link">RADAR SIM</a></li>
+        <li><a href="#calculator" class="nav-link">CALCULATOR</a></li>
         <li><a href="#grid-matrix" class="nav-link">GRID MATRIX</a></li>
         <li><a href="#gallery" class="nav-link">GALLERY</a></li>
-        <li><a href="#gis" class="nav-link">GIS</a></li>
+        <li><a href="#gis" class="nav-link">GIS MAP</a></li>
         <li><a href="#contact" class="nav-link">CONTACT</a></li>
       </ul>
 
       <div class="nav-actions">
         <div class="status-indicator">
-          <span class="status-dot pulse-dot"></span>
+          <span class="status-dot-wrap">
+            <span class="status-dot pulse-dot"></span>
+            <span class="status-ping"></span>
+          </span>
           <span class="status-text">ONLINE</span>
         </div>
 
-        <button class="cta-btn" id="navCtaBtn">REQUEST ACCESS</button>
-        <button class="hamburger" id="hamburgerBtn">
+        <button class="cta-btn btn-cyber-glow" id="navCtaBtn">
+          <span>REQUEST ACCESS</span>
+        </button>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle Navigation Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -511,6 +533,61 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ========== RADAR COVERAGE & PROBABILITY CALCULATOR SECTION ========== -->
+  <section id="calculator" class="section calculator-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ INTERACTIVE DEFENSE ANALYTICS ]</div>
+        <h2 class="section-title">RADAR COVERAGE &amp; <span class="text-yellow">PROBABILITY</span> CALCULATOR</h2>
+        <p class="section-desc">Simulate radar transmitter signal power against drone Radar Cross-Section (RCS) to calculate detection envelope and reaction window in real-time.</p>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-grid">
+          <!-- Sliders -->
+          <div class="calc-sliders">
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>RADAR POWER OUTPUT (KW)</span>
+                <span id="radarPowerNum">50 kW</span>
+              </div>
+              <input type="range" id="radarPower" min="10" max="250" value="50" step="5">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>TARGET DRONE RCS (M²)</span>
+                <span id="rcsTargetNum">0.25 m²</span>
+              </div>
+              <input type="range" id="rcsTarget" min="0.005" max="2.0" value="0.25" step="0.01">
+            </div>
+          </div>
+
+          <!-- Calculated Results -->
+          <div class="calc-results-display">
+            <div class="result-metric">
+              <div class="result-val" id="calcRangeVal">18 km</div>
+              <div class="result-label">MAXIMUM RADAR DETECTION RANGE</div>
+            </div>
+
+            <div class="calc-sub-grid">
+              <div class="sub-metric-box">
+                <div class="result-val sub-val text-green" id="calcProbVal">94%</div>
+                <div class="result-label">NEUTRALIZATION PROBABILITY</div>
+              </div>
+              <div class="sub-metric-box">
+                <div class="result-val sub-val text-yellow" id="calcReactVal">57.6s</div>
+                <div class="result-label">INTERCEPT REACTION WINDOW</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== RESPONSIVE CSS GRID MATRIX SHOWCASE SECTION ========== -->
   <section id="grid-matrix" class="section grid-matrix-section">
     <div class="section-container">
@@ -874,8 +951,6 @@
 
       </div><!-- /gallery-grid -->
 
-
-
     </div>
   </section>
 
@@ -1062,6 +1137,100 @@
     </div>
   </section>
 
+  <!-- ========== CONTACT SECTION ========== -->
+  <section id="contact" class="section contact-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ SECURE CHANNEL ]</div>
+        <h2 class="section-title">REQUEST <span class="text-yellow">ACCESS</span></h2>
+        <p class="section-desc">Establish a secure line with our defense engineers. Procurement, technical briefings,
+          and classified demonstrations require verified credentials.</p>
+      </div>
+
+      <!-- HORIZONTAL CONTACT PATTERN -->
+      <div class="contact-horizontal-wrapper">
+        <!-- TOP HORIZONTAL INFO CARDS BAR -->
+        <div class="contact-cards-row">
+          <div class="ci-block-h">
+            <div class="ci-icon-wrap">&#9993;</div>
+            <div class="ci-text-content">
+              <div class="ci-label">SECURE EMAIL</div>
+              <div class="ci-val">ashutosh.rajawat@skynet24.com</div>
+            </div>
+            <div class="ci-status-dot" title="Active Line"></div>
+          </div>
+
+          <div class="ci-block-h">
+            <div class="ci-icon-wrap">&#128222;</div>
+            <div class="ci-text-content">
+              <div class="ci-label">ENCRYPTED VOICE</div>
+              <div class="ci-val">+91 9555569966</div>
+            </div>
+            <div class="ci-status-dot" title="Encrypted Channel"></div>
+          </div>
+
+          <div class="ci-block-h">
+            <div class="ci-icon-wrap">&#128205;</div>
+            <div class="ci-text-content">
+              <div class="ci-label">CLASSIFIED HQ</div>
+              <div class="ci-val">Greater Noida, Uttar Pradesh 201510</div>
+            </div>
+            <div class="ci-status-dot" title="Facility Online"></div>
+          </div>
+
+          <div class="ci-block-h ci-badges-block">
+            <div class="ci-label">SECURITY PROTOCOLS</div>
+            <div class="security-badges">
+              <span class="sbadge">AES-256</span>
+              <span class="sbadge">ITAR</span>
+              <span class="sbadge">ISO 9001</span>
+              <span class="sbadge">STANAG 4586</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HORIZONTAL FORM LAYOUT -->
+        <form class="contact-form contact-form-horizontal" id="contactForm">
+          <div class="form-row-3">
+            <div class="form-group">
+              <label class="form-label">FULL NAME / RANK</label>
+              <input type="text" class="form-input" id="formName" placeholder="Commander James Vance" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ORGANIZATION</label>
+              <input type="text" class="form-input" id="formOrg" placeholder="DoD / Agency" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CLEARANCE EMAIL</label>
+              <input type="email" class="form-input" id="formEmail" placeholder="contact@agency.gov" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">SYSTEMS OF INTEREST</label>
+            <div class="checkbox-grp checkbox-grp-horizontal">
+              <label class="check-item"><input type="checkbox" value="drones"> Tactical Drones</label>
+              <label class="check-item"><input type="checkbox" value="counter"> Counter-Drone</label>
+              <label class="check-item"><input type="checkbox" value="robotics"> Robotics</label>
+              <label class="check-item"><input type="checkbox" value="ai"> AI Systems</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">OPERATIONAL REQUIREMENTS</label>
+            <textarea class="form-textarea" id="formMessage" rows="3"
+              placeholder="Describe your operational environment, threat scenario, and required capabilities..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-form-submit">
+            <span>SUBMIT CLASSIFIED INQUIRY</span>
+            <span>&#10148;</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== FOOTER ========== -->
   <footer class="footer">
     <div class="footer-container">
@@ -1131,8 +1300,6 @@
     </div>
   </footer>
 
-
-
   <!-- PRODUCT MODAL -->
   <div class="modal-overlay" id="productModal">
     <div class="modal-box">
@@ -1141,7 +1308,13 @@
     </div>
   </div>
 
-
+  <!-- GALLERY LIGHTBOX MODAL -->
+  <div class="modal-overlay" id="galleryModal">
+    <div class="modal-box gallery-modal-box">
+      <button class="modal-close-btn" id="galleryModalCloseBtn">&#10005;</button>
+      <div id="galleryModalContent"></div>
+    </div>
+  </div>
 
   <!-- SCRIPTS -->
   <script src="simulator.js"></script>
