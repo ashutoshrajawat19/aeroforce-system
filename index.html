@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroForce Systems — Advanced Drone, Counter-Drone &amp; Robotics Technologies</title>
+  <meta name="description"
+    content="AeroForce Systems delivers world-class autonomous drones, counter-drone defense systems, and cutting-edge robotics solutions for military, industrial and commercial applications.">
+  <meta name="keywords"
+    content="drone technology, counter drone, anti-drone system, robotics, UAV, autonomous systems, C-UAS, military drones, defense robotics">
+  <meta name="author" content="AeroForce Systems">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- GSAP & Plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor-outer" id="cursorOuter"></div>
+  <div class="cursor-inner" id="cursorInner"></div>
+
+  <!-- SCANLINE OVERLAY -->
+  <div class="scanline-overlay"></div>
+
+  <!-- THREE.JS HERO CANVAS -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <div class="brand-hexagon">
+          <svg viewBox="0 0 60 60" width="42" height="42">
+            <polygon points="30,2 58,17 58,43 30,58 2,43 2,17" fill="none" stroke="#FFD700" stroke-width="2" />
+            <polygon points="30,10 50,21 50,39 30,50 10,39 10,21" fill="rgba(255,215,0,0.08)" stroke="#FFD700"
+              stroke-width="1" stroke-dasharray="3,3" />
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Orbitron" font-size="14"
+              fill="#FFD700" font-weight="900">AF</text>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">AEROFORCE</span>
+          <span class="brand-sub">SYSTEMS // ADVANCED DEFENSE</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero" class="nav-link active">HOME</a></li>
+        <li><a href="#products" class="nav-link">PRODUCTS</a></li>
+        <li><a href="#technology" class="nav-link">TECHNOLOGY</a></li>
+        <li><a href="#robotics" class="nav-link">ROBOTICS</a></li>
+        <li><a href="#specifications" class="nav-link">SPECS DB</a></li>
+        <li><a href="#radar" class="nav-link">RADAR SIM</a></li>
+        <li><a href="#gallery" class="nav-link">GALLERY</a></li>
+        <li><a href="#gis" class="nav-link">GIS</a></li>
+        <li><a href="#contact" class="nav-link">CONTACT</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="status-indicator">
+          <span class="status-dot pulse-dot"></span>
+          <span class="status-text">ONLINE</span>
+        </div>
+
+        <button class="cta-btn" id="navCtaBtn">REQUEST ACCESS</button>
+        <button class="hamburger" id="hamburgerBtn">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="hero" class="hero-section">
+    <div class="hero-content-wrapper">
+      <!-- HERO CANVAS CONTROLS -->
+      <div class="hero-bg-converter" id="heroBgConverter">
+        <span class="converter-label">HERO CANVAS:</span>
+        <button class="bg-mode-btn active" data-mode="space" type="button">🛸 DRONE SPACE</button>
+        <button class="bg-mode-btn" data-mode="tactical" type="button">🎯 TACTICAL GRID</button>
+        <button class="bg-mode-btn" data-mode="cyber" type="button">⚡ CYBER MESH</button>
+        <button class="bg-mode-btn" data-mode="matrix" type="button">🛡️ MATRIX</button>
+      </div>
+
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>DEFCON 1 // CLASSIFIED TECH ACCESS</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-line" id="heroLine1">DOMINATE</span>
+        <span class="hero-line" id="heroLine2">THE <em class="text-yellow">AIRSPACE</em></span>
+        <span class="hero-line" id="heroLine3">WITH PRECISION</span>
+      </h1>
+
+      <p class="hero-desc" id="heroDesc" data-original-text="Engineered for total multi-domain superiority. Deploying autonomous drone swarms, AI counter-UAS strike shields, and next-gen tactical robotics across denied operational theaters.">
+        Architecting military-grade <span class="desc-highlight">autonomous drone swarms</span>, 
+        AI-driven <span class="desc-highlight">counter-UAS defense shields</span>, and multi-domain 
+        tactical robotics — engineered for supremacy in the most demanding operational environments.
+      </p>
+
+      <div class="hero-cta-group" id="heroCtaGroup">
+        <a href="#products" class="btn-primary-hero">
+          <span>EXPLORE SYSTEMS</span>
+        </a>
+        <a href="#technology" class="btn-outline-hero">
+          <span>VIEW TECHNOLOGY</span>
+        </a>
+      </div>
+
+      <div class="hero-stats" id="heroStats">
+        <div class="hstat">
+          <div class="hstat-num" data-target="99.8">0</div>
+          <div class="hstat-unit">%</div>
+          <div class="hstat-label">Interception Rate</div>
+        </div>
+        <div class="hstat-divider"></div>
+        <div class="hstat">
+          <div class="hstat-num" data-target="450">0</div>
+          <div class="hstat-unit">KM</div>
+          <div class="hstat-label">Operational Range</div>
+        </div>
+        <div class="hstat-divider"></div>
+        <div class="hstat">
+          <div class="hstat-num" data-target="128">0</div>
+          <div class="hstat-unit">+</div>
+          <div class="hstat-label">Units Deployed</div>
+        </div>
+        <div class="hstat-divider"></div>
+        <div class="hstat">
+          <div class="hstat-num" data-target="100">0</div>
+          <div class="hstat-unit">kW</div>
+          <div class="hstat-label">Laser Power</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD ELEMENTS -->
+    <div class="hud-element hud-top-right">
+      <div class="hud-label">TACTICAL GRID</div>
+      <div class="hud-value text-yellow">LAT 34°N / LON 118°W</div>
+      <div class="hud-label" style="margin-top:6px">THREAT LEVEL</div>
+      <div class="hud-value" style="color:#ff4444">ELEVATED</div>
+      <canvas id="miniRadarCanvas" width="90" height="90" style="margin-top:10px;display:block"></canvas>
+    </div>
+
+    <div class="hud-element hud-bottom-left">
+      <div class="hud-label">SYSTEM STATUS</div>
+      <div class="hud-rows">
+        <div class="hud-row"><span>AI ENGINE</span><span class="text-yellow">ACTIVE</span></div>
+        <div class="hud-row"><span>RF JAMMING</span><span style="color:#00ff88">ARMED</span></div>
+        <div class="hud-row"><span>LASER SYS</span><span style="color:#00ff88">READY</span></div>
+        <div class="hud-row"><span>SWARM NET</span><span class="text-yellow">STANDBY</span></div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-text">SCROLL TO ENGAGE</div>
+      <div class="scroll-arrow-wrap">
+        <div class="scroll-arr"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TICKER BAR ========== -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <div class="ticker-content">
+        <span class="ticker-badge">// LIVE INTEL //</span>
+        SYSTEM BOOT COMPLETE &nbsp;&#9632;&nbsp; RADAR SWEEP: ACTIVE &nbsp;&#9632;&nbsp; DRONE FLEET: 128 UNITS ONLINE
+        &nbsp;&#9632;&nbsp; COUNTER-DRONE SYSTEMS: ARMED &nbsp;&#9632;&nbsp; AI TARGETING: ENGAGED &nbsp;&#9632;&nbsp;
+        SECURE CHANNEL: ENCRYPTED AES-256 &nbsp;&#9632;&nbsp; SWARM COORDINATION: ACTIVE &nbsp;&#9632;&nbsp; LASER
+        TURRET: STANDBY &nbsp;&#9632;&nbsp; RF JAMMER: CHARGED &nbsp;&#9632;&nbsp;
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PRODUCTS SECTION ========== -->
+  <section id="products" class="section products-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ SQL PRODUCT DATABASE ]</div>
+        <h2 class="section-title">HARDWARE <span class="text-yellow">CATALOG</span></h2>
+        <p class="section-desc">Real-time product lookup powered by our integrated defense systems database. Filter,
+          search, and query our full lineup of tactical hardware.</p>
+      </div>
+
+      <!-- SQL QUERY BAR -->
+      <div class="sql-query-bar">
+        <div class="sql-prompt">
+          <span class="sql-icon">▶</span>
+          <span class="sql-kw">SELECT</span>
+          <span class="sql-txt"> * FROM products</span>
+          <span class="sql-kw"> WHERE</span>
+          <span class="sql-txt"> category = </span>
+          <span class="sql-str" id="sqlCategoryDisplay">'ALL'</span>
+        </div>
+        <div class="sql-meta" id="sqlMeta">Returning 9 rows &middot; 0.003ms</div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">ALL HARDWARE</button>
+        <button class="filter-btn" data-filter="drone">TACTICAL DRONES</button>
+        <button class="filter-btn" data-filter="counter">COUNTER-DRONE</button>
+        <button class="filter-btn" data-filter="robotics">ROBOTICS</button>
+        <div class="search-box">
+          <input type="text" id="productSearch" placeholder="SEARCH PRODUCTS..." class="search-input">
+          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none" />
+            <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- PRODUCT GRID -->
+      <div class="product-grid" id="productGrid"></div>
+      <div class="no-results hidden" id="noResults">
+        <div>&#9888; NO MATCHING PRODUCTS IN DATABASE</div>
+        <div style="font-size:0.78rem;opacity:0.5;margin-top:6px">QUERY RETURNED 0 ROWS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TECHNOLOGY SECTION ========== -->
+  <section id="technology" class="section technology-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ CORE ARCHITECTURE ]</div>
+        <h2 class="section-title">DUAL-SPECTRUM <span class="text-yellow">DEFENSE</span> MATRIX</h2>
+        <p class="section-desc">Two parallel technology ecosystems — autonomous offensive UAV systems and total-spectrum
+          counter-drone defense working in concert.</p>
+      </div>
+
+      <div class="tech-tab-bar">
+        <button class="tech-tab active" data-tech="drones"><span class="tab-num">01</span><span>TACTICAL
+            DRONES</span></button>
+        <button class="tech-tab" data-tech="counter"><span class="tab-num">02</span><span>COUNTER-DRONE</span></button>
+        <button class="tech-tab" data-tech="ai"><span class="tab-num">03</span><span>AI SYSTEMS</span></button>
+      </div>
+
+      <div class="tech-panel active" id="panelDrones">
+        <div class="tech-panel-grid">
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#9885;</div>
+            <h3 class="tfc-title">QUAD-ROTOR AUTONOMY</h3>
+            <p class="tfc-desc">AI-driven flight path optimization, obstacle avoidance, and GPS-denied navigation using
+              optical flow sensors and edge inference.</p>
+            <div class="tfc-specs"><span>Top Speed: 160 km/h</span><span>Altitude: 6,000m MSL</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#9904;</div>
+            <h3 class="tfc-title">STEALTH VTOL SYSTEM</h3>
+            <p class="tfc-desc">Variable-geometry VTOL transition with ultra-low radar cross-section composite airframe
+              and thermal-reducing exhaust management.</p>
+            <div class="tfc-specs"><span>RCS: &lt; 0.005 m²</span><span>Endurance: 12.5 Hours</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#128065;</div>
+            <h3 class="tfc-title">AI VISION TARGETING</h3>
+            <p class="tfc-desc">Onboard neural processing running real-time object detection at 120fps with
+              multi-spectral imaging — thermal, optical, and SAR fusion.</p>
+            <div class="tfc-specs"><span>Frame Rate: 120 FPS</span><span>Accuracy: 99.7% mAP</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#9676;</div>
+            <h3 class="tfc-title">SWARM MESH NETWORK</h3>
+            <p class="tfc-desc">128-unit synchronized swarm on encrypted L-Band COFDM mesh, with self-healing node
+              redundancy and distributed task allocation.</p>
+            <div class="tfc-specs"><span>Max Swarm: 128 Units</span><span>Latency: &lt; 2ms</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tech-panel" id="panelCounter">
+        <div class="tech-panel-grid">
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#9685;</div>
+            <h3 class="tfc-title">PULSE DOPPLER RADAR</h3>
+            <p class="tfc-desc">Active phased-array radar with 360° azimuth coverage detecting micro-drones down to
+              0.001 m² RCS at 30km range.</p>
+            <div class="tfc-specs"><span>Detection: 30 km</span><span>Min RCS: 0.001 m²</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#9889;</div>
+            <h3 class="tfc-title">DIRECTED ENERGY LASER</h3>
+            <p class="tfc-desc">100kW fiber diode laser delivering thermal hard-kill destruction at speed-of-light
+              engagement for $1 cost per shot.</p>
+            <div class="tfc-specs"><span>Power: 100 kW</span><span>Lock Time: 0.12 sec</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#128268;</div>
+            <h3 class="tfc-title">RF SPECTRUM JAMMER</h3>
+            <p class="tfc-desc">Multi-band RF and GNSS jamming across 400MHz–6GHz simultaneously, forcing drone RTH
+              within 3km radius.</p>
+            <div class="tfc-specs"><span>Range: 3,000m</span><span>Lock: &lt; 0.8 sec</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#9993;</div>
+            <h3 class="tfc-title">KINETIC NET INTERCEPTOR</h3>
+            <p class="tfc-desc">Physical net-capture drone physically ensnaring rogue UAVs mid-flight for evidence
+              preservation and forensic analysis.</p>
+            <div class="tfc-specs"><span>Net Dia: 8 meters</span><span>Speed: 200 km/h</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tech-panel" id="panelAI">
+        <div class="tech-panel-grid">
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#129302;</div>
+            <h3 class="tfc-title">AUTONOMOUS AI PILOT</h3>
+            <p class="tfc-desc">Level 5 autonomous operation with onboard decision trees, threat classification neural
+              nets, and real-time mission replanning.</p>
+            <div class="tfc-specs"><span>Autonomy: STANAG L5</span><span>Latency: 50ms</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#127760;</div>
+            <h3 class="tfc-title">DEEP LEARNING FUSION</h3>
+            <p class="tfc-desc">Multi-modal sensor fusion combining radar, acoustic, optical, and RF signatures through
+              transformer-based neural architecture.</p>
+            <div class="tfc-specs"><span>FP Rate: 0.002%</span><span>Model: 14B Params</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#128274;</div>
+            <h3 class="tfc-title">ENCRYPTED COMMAND NET</h3>
+            <p class="tfc-desc">Military-grade AES-256 C2 link with quantum-resistant key exchange, anti-jamming
+              frequency hopping, and zero-latency relay.</p>
+            <div class="tfc-specs"><span>AES-256-GCM</span><span>Bandwidth: 4.8 TB/s</span></div>
+          </div>
+          <div class="tech-feature-card">
+            <div class="tfc-icon">&#127919;</div>
+            <h3 class="tfc-title">REAL-TIME THREAT MATRIX</h3>
+            <p class="tfc-desc">Dynamic threat classification correlating signatures against 50,000+ UAV profiles for
+              instant ID and countermeasure selection.</p>
+            <div class="tfc-specs"><span>DB: 50,000+ profiles</span><span>ID Time: &lt; 100ms</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ROBOTICS SECTION ========== -->
+  <section id="robotics" class="section robotics-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ GROUND &amp; MARITIME SYSTEMS ]</div>
+        <h2 class="section-title">AUTONOMOUS <span class="text-yellow">ROBOTICS</span> PLATFORMS</h2>
+        <p class="section-desc">Beyond the sky — our ground robotics and maritime autonomous systems extend total
+          operational dominance across all combat domains.</p>
+      </div>
+
+      <div class="robotics-grid">
+        <div class="robotics-card robotics-large">
+          <canvas id="robotCanvas"></canvas>
+          <div class="robotics-info">
+            <div class="robotics-badge">GROUND UNIT // ALPHA CLASS</div>
+            <h3 class="robotics-title">TITAN-6 AUTONOMOUS GROUND ROBOT</h3>
+            <p class="robotics-desc">Hexapod all-terrain autonomous robot with modular payload bays, LIDAR mapping, and
+              battlefield awareness. Deployable in CBRN environments.</p>
+            <div class="rspecs-grid">
+              <div class="rspec-item"><span class="rspec-l">LOCOMOTION</span><span class="rspec-v">6-DOF HEXAPOD</span>
+              </div>
+              <div class="rspec-item"><span class="rspec-l">PAYLOAD</span><span class="rspec-v">50 KG</span></div>
+              <div class="rspec-item"><span class="rspec-l">TOP SPEED</span><span class="rspec-v">18 KM/H</span></div>
+              <div class="rspec-item"><span class="rspec-l">ENDURANCE</span><span class="rspec-v">8 HOURS</span></div>
+              <div class="rspec-item"><span class="rspec-l">SENSORS</span><span class="rspec-v">360° LIDAR</span></div>
+              <div class="rspec-item"><span class="rspec-l">ARMOR</span><span class="rspec-v">GRADE III</span></div>
+            </div>
+            <button class="btn-rbot" data-product="TITAN-6">REQUEST DATASHEET</button>
+          </div>
+        </div>
+
+        <div class="robotics-card robotics-sm">
+          <div class="rbot-icon">&#129302;</div>
+          <div class="robotics-badge">EOD // BOMB DISPOSAL</div>
+          <h3 class="rbot-title">AEGIS EOD MANIPULATOR</h3>
+          <p class="rbot-desc">Remote explosive ordnance disposal robot with 7-DOF dexterous arm, force-feedback
+            teleoperation, and X-ray imaging.</p>
+          <div class="rbot-specs"><span>Arm: 1.8m reach</span><span>Lift: 30kg</span><span>Range: 500m</span></div>
+          <button class="btn-rbot" data-product="AEGIS-EOD">LEARN MORE</button>
+        </div>
+
+        <div class="robotics-card robotics-sm">
+          <div class="rbot-icon">&#9875;</div>
+          <div class="robotics-badge">MARITIME // USV</div>
+          <h3 class="rbot-title">HYDRA-USV PATROL BOAT</h3>
+          <p class="rbot-desc">Autonomous unmanned surface vessel for coastal surveillance, maritime counter-drone, and
+            sonar deployment in naval ops.</p>
+          <div class="rbot-specs"><span>Speed: 45 knots</span><span>Range: 800km</span><span>Payload: 200kg</span></div>
+          <button class="btn-rbot" data-product="HYDRA-USV">LEARN MORE</button>
+        </div>
+
+        <div class="robotics-card robotics-sm">
+          <div class="rbot-icon">&#9954;</div>
+          <div class="robotics-badge">UNDERGROUND // UGV</div>
+          <h3 class="rbot-title">MOLE-X TUNNEL EXPLORER</h3>
+          <p class="rbot-desc">Compact UGV for underground tunnel mapping, IED detection, and subterranean
+            reconnaissance in denied environments.</p>
+          <div class="rbot-specs"><span>Width: 42cm</span><span>GPR Sensors</span><span>Battery: 6h</span></div>
+          <button class="btn-rbot" data-product="MOLE-X">LEARN MORE</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SPECS DATABASE SECTION ========== -->
+  <section id="specifications" class="section specs-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ TECHNICAL DATABASE ]</div>
+        <h2 class="section-title">FULL SPECS <span class="text-yellow">DATABASE</span></h2>
+        <p class="section-desc">Interactive SQL-rendered specifications table. Click any row to expand the complete
+          technical datasheet from our structured product registry.</p>
+      </div>
+      <div class="spec-table-wrap">
+        <table class="spec-table" id="specTable">
+          <thead>
+            <tr>
+              <th>PRODUCT</th>
+              <th>CATEGORY</th>
+              <th>KEY METRIC</th>
+              <th>RANGE / RADIUS</th>
+              <th>AI LEVEL</th>
+              <th>STATUS</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="specTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LIVE RADAR SIMULATOR ========== -->
+  <section id="radar" class="section radar-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ INTERACTIVE SIMULATION ]</div>
+        <h2 class="section-title">LIVE <span class="text-yellow">RADAR</span> COMMAND CENTER</h2>
+        <p class="section-desc">Real-time tactical radar simulation. Spawn threats and deploy countermeasures to
+          experience our C-UAS defense matrix in action.</p>
+      </div>
+
+      <div class="radar-layout">
+        <div class="radar-canvas-wrap">
+          <canvas id="radarCanvas"></canvas>
+          <span class="rlabel rlabel-n">N</span>
+          <span class="rlabel rlabel-e">E</span>
+          <span class="rlabel rlabel-s">S</span>
+          <span class="rlabel rlabel-w">W</span>
+        </div>
+
+        <div class="radar-controls">
+          <div class="rctrl-block">
+            <div class="rctrl-title">SPAWN THREAT</div>
+            <button class="rctrl-btn btn-threat" data-action="spawn_recon">&#11045; RECON UAV</button>
+            <button class="rctrl-btn btn-threat" data-action="spawn_swarm">&#11045; SWARM UNIT</button>
+            <button class="rctrl-btn btn-threat" data-action="spawn_stealth">&#11045; STEALTH DRONE</button>
+            <button class="rctrl-btn btn-threat" data-action="spawn_kamikaze">&#11045; KAMIKAZE UNIT</button>
+          </div>
+          <div class="rctrl-block">
+            <div class="rctrl-title">COUNTERMEASURES</div>
+            <button class="rctrl-btn btn-counter" data-action="deploy_rf">&#9889; RF JAMMER</button>
+            <button class="rctrl-btn btn-counter" data-action="deploy_laser">&#9889; ENERGY LASER</button>
+            <button class="rctrl-btn btn-counter" data-action="deploy_net">&#9889; NET DRONE</button>
+            <button class="rctrl-btn btn-counter btn-full" data-action="clear_all">&#10005; CLEAR ALL</button>
+          </div>
+          <div class="rctrl-block">
+            <div class="rctrl-title">AI SENTINEL</div>
+            <div class="ai-toggle-row">
+              <label class="toggle-switch">
+                <input type="checkbox" id="aiSentinelToggle">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+              <span id="aiToggleLabel">MANUAL MODE</span>
+            </div>
+            <div class="threat-level-disp">
+              <span>SECTOR THREAT:</span>
+              <span id="threatLevelVal" class="text-yellow">LOW</span>
+            </div>
+          </div>
+          <div class="rctrl-block rctrl-log">
+            <div class="rctrl-title">TACTICAL LOG <span class="text-yellow">&#9679; LIVE</span></div>
+            <div class="log-feed" id="logFeed">
+              <div class="log-info">[BOOT] Radar engine v4.2 initialized</div>
+              <div class="log-ok">[READY] All countermeasures armed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT SECTION ========== -->
+  <section id="contact" class="section contact-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ SECURE CHANNEL ]</div>
+        <h2 class="section-title">REQUEST <span class="text-yellow">ACCESS</span></h2>
+        <p class="section-desc">Establish a secure line with our defense engineers. Procurement, technical briefings,
+          and classified demonstrations require verified credentials.</p>
+      </div>
+
+      <!-- HORIZONTAL CONTACT PATTERN -->
+      <div class="contact-horizontal-wrapper">
+        <!-- TOP HORIZONTAL INFO CARDS BAR -->
+        <div class="contact-cards-row">
+          <div class="ci-block-h">
+            <div class="ci-icon-wrap">&#9993;</div>
+            <div class="ci-text-content">
+              <div class="ci-label">SECURE EMAIL</div>
+              <div class="ci-val">ashutosh.rajawat@skynet24.com</div>
+            </div>
+            <div class="ci-status-dot" title="Active Line"></div>
+          </div>
+
+          <div class="ci-block-h">
+            <div class="ci-icon-wrap">&#128222;</div>
+            <div class="ci-text-content">
+              <div class="ci-label">ENCRYPTED VOICE</div>
+              <div class="ci-val">+91 9555569966</div>
+            </div>
+            <div class="ci-status-dot" title="Encrypted Channel"></div>
+          </div>
+
+          <div class="ci-block-h">
+            <div class="ci-icon-wrap">&#128205;</div>
+            <div class="ci-text-content">
+              <div class="ci-label">CLASSIFIED HQ</div>
+              <div class="ci-val">Greater Noida, Uttar Pradesh 201510</div>
+            </div>
+            <div class="ci-status-dot" title="Facility Online"></div>
+          </div>
+
+          <div class="ci-block-h ci-badges-block">
+            <div class="ci-label">SECURITY PROTOCOLS</div>
+            <div class="security-badges">
+              <span class="sbadge">AES-256</span>
+              <span class="sbadge">ITAR</span>
+              <span class="sbadge">ISO 9001</span>
+              <span class="sbadge">STANAG 4586</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HORIZONTAL FORM LAYOUT -->
+        <form class="contact-form contact-form-horizontal" id="contactForm">
+          <div class="form-row-3">
+            <div class="form-group">
+              <label class="form-label">FULL NAME / RANK</label>
+              <input type="text" class="form-input" id="formName" placeholder="Commander James Vance" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ORGANIZATION</label>
+              <input type="text" class="form-input" id="formOrg" placeholder="DoD / Agency" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CLEARANCE EMAIL</label>
+              <input type="email" class="form-input" id="formEmail" placeholder="contact@agency.gov" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">SYSTEMS OF INTEREST</label>
+            <div class="checkbox-grp checkbox-grp-horizontal">
+              <label class="check-item"><input type="checkbox" value="drones"> Tactical Drones</label>
+              <label class="check-item"><input type="checkbox" value="counter"> Counter-Drone</label>
+              <label class="check-item"><input type="checkbox" value="robotics"> Robotics</label>
+              <label class="check-item"><input type="checkbox" value="ai"> AI Systems</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">OPERATIONAL REQUIREMENTS</label>
+            <textarea class="form-textarea" id="formMessage" rows="3"
+              placeholder="Describe your operational environment, threat scenario, and required capabilities..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-form-submit">
+            <span>SUBMIT CLASSIFIED INQUIRY</span>
+            <span>&#10148;</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GALLERY SECTION ========== -->
+  <section id="gallery" class="section gallery-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ OPERATIONAL MEDIA ]</div>
+        <h2 class="section-title">FIELD <span class="text-yellow">GALLERY</span></h2>
+        <p class="section-desc">Real-world deployments, live field operations and system demonstrations captured by our field teams worldwide.</p>
+      </div>
+
+      <!-- GALLERY FILTER TABS -->
+      <div class="gallery-filter-bar">
+        <button class="gallery-filter-btn active" data-filter="all" id="gfAll">ALL MEDIA</button>
+        <button class="gallery-filter-btn" data-filter="drone" id="gfDrone">UAV SYSTEMS</button>
+        <button class="gallery-filter-btn" data-filter="counter" id="gfCounter">COUNTER-DRONE</button>
+        <button class="gallery-filter-btn" data-filter="swarm" id="gfSwarm">SWARM TECH</button>
+        <button class="gallery-filter-btn" data-filter="robotics" id="gfRobotics">ROBOTICS</button>
+      </div>
+
+      <!-- PHOTO GRID -->
+      <div class="gallery-grid" id="galleryGrid">
+
+        <!-- DRONE IMAGES -->
+        <div class="gallery-item gallery-item--large" data-category="drone">
+          <img src="assets/gallery/drone_spectre_x.jpg" alt="SPECTRE-X Stealth VTOL drone taking off from military airfield" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">UAV SYSTEMS</div>
+            <div class="gallery-title">SPECTRE-X STEALTH VTOL</div>
+            <div class="gallery-meta">Field deployment — Desert operations theater</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="drone">
+          <img src="assets/gallery/hydra_swarm.jpg" alt="Hydra-9 swarm of UAVs in coordinated flight formation" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">UAV SYSTEMS</div>
+            <div class="gallery-title">HYDRA-9 SWARM MATRIX</div>
+            <div class="gallery-meta">128-unit coordinated swarm flight</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="drone">
+          <img src="assets/gallery/drone_flying_action.jpg" alt="Military tactical drone in high speed flight over mountains" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">UAV SYSTEMS</div>
+            <div class="gallery-title">HIGH-SPEED TACTICAL FLIGHT</div>
+            <div class="gallery-meta">Combat velocity test — Mountain zone</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="drone">
+          <img src="assets/gallery/micro_uav_ghost.jpg" alt="Ghost Recon micro UAV palm-sized reconnaissance drone" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">UAV SYSTEMS</div>
+            <div class="gallery-title">GHOST RECON MICRO UAV</div>
+            <div class="gallery-meta">220g ultra-compact recon platform</div>
+          </div>
+        </div>
+
+        <!-- COUNTER-DRONE IMAGES -->
+        <div class="gallery-item gallery-item--large" data-category="counter">
+          <img src="assets/gallery/laser_turret.jpg" alt="Helios-100 laser anti-drone turret firing blue beam" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">COUNTER-DRONE</div>
+            <div class="gallery-title">HELIOS-100 LASER TURRET</div>
+            <div class="gallery-meta">100kW hard-kill engagement — Night ops</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="counter">
+          <img src="assets/gallery/cyber_gun_rf.jpg" alt="Soldier operating Cyber-Gun V2 RF jamming rifle" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">COUNTER-DRONE</div>
+            <div class="gallery-title">CYBER-GUN V2 RF RIFLE</div>
+            <div class="gallery-meta">Operator field deployment — Desert theater</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="counter">
+          <img src="assets/gallery/counter_drone_radar.jpg" alt="Eagle-Eye counter-drone radar phased array antenna truck" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">COUNTER-DRONE</div>
+            <div class="gallery-title">EAGLE-EYE RADAR ARRAY</div>
+            <div class="gallery-meta">360° threat detection — Field deployment</div>
+          </div>
+        </div>
+
+        <!-- ROBOTICS IMAGES -->
+        <div class="gallery-item gallery-item--large" data-category="robotics">
+          <img src="assets/gallery/ground_rover_titan.jpg" alt="Titan-6 military UGV ground robot traversing rocky terrain" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">ROBOTICS</div>
+            <div class="gallery-title">TITAN-6 GROUND ROBOT</div>
+            <div class="gallery-meta">Autonomous terrain traversal — Rocky desert zone</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="robotics">
+          <img src="assets/gallery/rover_walk_terrain.jpg" alt="Military legged robot walking on rough terrain" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag">ROBOTICS</div>
+            <div class="gallery-title">AEGIS LEGGED PLATFORM</div>
+            <div class="gallery-meta">Hexapod locomotion — Field trial</div>
+          </div>
+        </div>
+
+        <!-- SWARM TECHNOLOGY IMAGES -->
+        <div class="gallery-item gallery-item--large" data-category="swarm">
+          <img src="assets/gallery/swarm_formation_attack.jpg" alt="Massive drone swarm in coordinated attack formation at dusk" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag gallery-tag--swarm">SWARM TECH</div>
+            <div class="gallery-title">HYDRA-9 ATTACK FORMATION</div>
+            <div class="gallery-meta">128-unit autonomous swarm — Live field exercise</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="swarm">
+          <img src="assets/gallery/swarm_unit_closeup.jpg" alt="Single swarm drone unit close-up on deployment case" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag gallery-tag--swarm">SWARM TECH</div>
+            <div class="gallery-title">SWARM NODE UNIT</div>
+            <div class="gallery-meta">Mesh-network AI node — Product detail</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="swarm">
+          <img src="assets/gallery/swarm_launcher_deploy.jpg" alt="Drone swarm launched from tube launcher on armored vehicle" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag gallery-tag--swarm">SWARM TECH</div>
+            <div class="gallery-title">TUBE-LAUNCH DEPLOYMENT</div>
+            <div class="gallery-meta">Rapid swarm ejection system — Desert ops</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="swarm">
+          <img src="assets/gallery/swarm_command_center.jpg" alt="Swarm command and control center with operators monitoring drone positions" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-tag gallery-tag--swarm">SWARM TECH</div>
+            <div class="gallery-title">SWARM C2 OPERATIONS CENTER</div>
+            <div class="gallery-meta">Real-time swarm coordination — Tactical HQ</div>
+          </div>
+        </div>
+
+      </div><!-- /gallery-grid -->
+
+
+
+    </div>
+  </section>
+
+  <!-- ========== GIS SECTION ========== -->
+  <section id="gis" class="section gis-section">
+    <div class="section-container">
+
+      <div class="section-header">
+        <div class="section-tag">[ GEOSPATIAL INTELLIGENCE SYSTEM ]</div>
+        <h2 class="section-title">GIS <span class="text-yellow">COMMAND LAYER</span></h2>
+        <p class="section-desc">Real-time geospatial intelligence, autonomous drone route planning, threat-zone mapping and battlefield situational awareness — all unified in one command layer.</p>
+      </div>
+
+      <!-- GIS MAIN LAYOUT -->
+      <div class="gis-layout">
+
+        <!-- LEFT: Live Map Canvas -->
+        <div class="gis-map-panel">
+          <div class="gis-map-header">
+            <span class="gis-map-label">LIVE TACTICAL MAP — SECTOR 7-DELTA</span>
+            <div class="gis-map-controls">
+              <button class="gis-ctrl-btn active" id="gisLayerTerrain" onclick="gisSetLayer('terrain')">TERRAIN</button>
+              <button class="gis-ctrl-btn" id="gisLayerThreats" onclick="gisSetLayer('threats')">THREATS</button>
+              <button class="gis-ctrl-btn" id="gisLayerRoutes" onclick="gisSetLayer('routes')">ROUTES</button>
+              <button class="gis-ctrl-btn" id="gisLayerAll" onclick="gisSetLayer('all')">ALL</button>
+            </div>
+          </div>
+          <div class="gis-canvas-wrap">
+            <canvas id="gisMapCanvas"></canvas>
+            <!-- Coordinate overlay -->
+            <div class="gis-coord-overlay" id="gisCoordOverlay">LAT -- / LON --</div>
+            <!-- Scale bar -->
+            <div class="gis-scale-bar">
+              <div class="gis-scale-line"></div>
+              <span>0</span><span style="margin-left:auto">50 KM</span>
+            </div>
+          </div>
+          <!-- Map legend -->
+          <div class="gis-legend">
+            <div class="gis-legend-item"><span class="gis-dot" style="background:#FFD700"></span>Drone Waypoints</div>
+            <div class="gis-legend-item"><span class="gis-dot" style="background:#ff4444"></span>Threat Zones</div>
+            <div class="gis-legend-item"><span class="gis-dot" style="background:#00ff88"></span>Safe Corridors</div>
+            <div class="gis-legend-item"><span class="gis-dot" style="background:#00e5ff"></span>Swarm Nodes</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Stats + Capabilities -->
+        <div class="gis-info-panel">
+
+          <!-- Live stats -->
+          <div class="gis-stats-block">
+            <div class="gis-stat">
+              <div class="gis-stat-val" id="gisStatDrones">128</div>
+              <div class="gis-stat-label">ACTIVE DRONES</div>
+            </div>
+            <div class="gis-stat">
+              <div class="gis-stat-val" id="gisStatThreats">7</div>
+              <div class="gis-stat-label">THREAT VECTORS</div>
+            </div>
+            <div class="gis-stat">
+              <div class="gis-stat-val" id="gisStatCoverage">94%</div>
+              <div class="gis-stat-label">AREA COVERAGE</div>
+            </div>
+            <div class="gis-stat">
+              <div class="gis-stat-val">&#60;2ms</div>
+              <div class="gis-stat-label">UPDATE LATENCY</div>
+            </div>
+          </div>
+
+          <!-- Capability cards -->
+          <div class="gis-caps-list">
+
+            <div class="gis-cap-card">
+              <div class="gis-cap-icon">🗺️</div>
+              <div class="gis-cap-body">
+                <div class="gis-cap-title">TERRAIN ANALYSIS</div>
+                <div class="gis-cap-desc">Digital elevation models (DEM) with slope, aspect and line-of-sight calculations for optimal drone deployment corridors.</div>
+                <div class="gis-cap-tags">
+                  <span>DEM</span><span>LOS</span><span>LIDAR</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="gis-cap-card">
+              <div class="gis-cap-icon">🎯</div>
+              <div class="gis-cap-body">
+                <div class="gis-cap-title">THREAT ZONE MAPPING</div>
+                <div class="gis-cap-desc">Real-time geofenced exclusion zones with dynamic threat radius updates fed from radar and RF-detection sensor networks.</div>
+                <div class="gis-cap-tags">
+                  <span>GEOFENCE</span><span>RF-DETECT</span><span>REAL-TIME</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="gis-cap-card">
+              <div class="gis-cap-icon">🛰️</div>
+              <div class="gis-cap-body">
+                <div class="gis-cap-title">ISR IMAGERY FUSION</div>
+                <div class="gis-cap-desc">Multi-source satellite, EO/IR and SAR imagery georeferenced and fused into a single common operating picture (COP).</div>
+                <div class="gis-cap-tags">
+                  <span>SAR</span><span>EO/IR</span><span>COP</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="gis-cap-card">
+              <div class="gis-cap-icon">✈️</div>
+              <div class="gis-cap-body">
+                <div class="gis-cap-title">AUTONOMOUS ROUTE PLANNING</div>
+                <div class="gis-cap-desc">AI-driven optimal path generation respecting terrain masking, battery constraints, threat avoidance and airspace deconfliction.</div>
+                <div class="gis-cap-tags">
+                  <span>A* ROUTING</span><span>3D PATH</span><span>DECONFLICT</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="gis-cap-card">
+              <div class="gis-cap-icon">📡</div>
+              <div class="gis-cap-body">
+                <div class="gis-cap-title">SWARM GEOFENCING</div>
+                <div class="gis-cap-desc">Polygon-based dynamic boundary enforcement for swarm operations, ensuring autonomous drones remain within mission-assigned spatial envelopes.</div>
+                <div class="gis-cap-tags">
+                  <span>POLYGON</span><span>MESH-NET</span><span>DYNAMIC</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="gis-cap-card">
+              <div class="gis-cap-icon">💥</div>
+              <div class="gis-cap-body">
+                <div class="gis-cap-title">BATTLE DAMAGE ASSESSMENT</div>
+                <div class="gis-cap-desc">Post-strike geospatial change detection using before/after imagery analysis with automated damage polygon extraction and reporting.</div>
+                <div class="gis-cap-tags">
+                  <span>CHANGE DETECT</span><span>BDA</span><span>AUTO-REPORT</span>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /gis-caps-list -->
+        </div><!-- /gis-info-panel -->
+      </div><!-- /gis-layout -->
+
+      <!-- GIS WORKFLOW ROW -->
+      <div class="gis-workflow">
+        <div class="gis-workflow-title">GIS OPERATIONAL WORKFLOW</div>
+        <div class="gis-workflow-steps">
+          <div class="gis-step">
+            <div class="gis-step-num">01</div>
+            <div class="gis-step-icon">🛰️</div>
+            <div class="gis-step-label">SATELLITE DATA INGESTION</div>
+            <div class="gis-step-desc">Multi-spectral imagery pulled from commercial and military constellations in real time</div>
+          </div>
+          <div class="gis-step-arrow">&#9654;</div>
+          <div class="gis-step">
+            <div class="gis-step-num">02</div>
+            <div class="gis-step-icon">🧠</div>
+            <div class="gis-step-label">AI LAYER PROCESSING</div>
+            <div class="gis-step-desc">ML models extract terrain features, detect changes and classify threat signatures automatically</div>
+          </div>
+          <div class="gis-step-arrow">&#9654;</div>
+          <div class="gis-step">
+            <div class="gis-step-num">03</div>
+            <div class="gis-step-icon">🗺️</div>
+            <div class="gis-step-label">COP MAP GENERATION</div>
+            <div class="gis-step-desc">Common Operating Picture built with fused data layers, threat zones and route overlays</div>
+          </div>
+          <div class="gis-step-arrow">&#9654;</div>
+          <div class="gis-step">
+            <div class="gis-step-num">04</div>
+            <div class="gis-step-icon">✈️</div>
+            <div class="gis-step-label">MISSION TASKING</div>
+            <div class="gis-step-desc">Optimised routes and waypoints pushed to drone fleet for autonomous mission execution</div>
+          </div>
+          <div class="gis-step-arrow">&#9654;</div>
+          <div class="gis-step">
+            <div class="gis-step-num">05</div>
+            <div class="gis-step-icon">📊</div>
+            <div class="gis-step-label">BDA & REPORTING</div>
+            <div class="gis-step-desc">Post-mission geospatial analysis with automated battle damage assessment reports</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand-wrap">
+          <svg viewBox="0 0 60 60" width="44" height="44">
+            <polygon points="30,2 58,17 58,43 30,58 2,43 2,17" fill="none" stroke="#FFD700" stroke-width="2" />
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Orbitron" font-size="13"
+              fill="#FFD700" font-weight="900">AF</text>
+          </svg>
+          <div>
+            <div class="footer-brand-name">AEROFORCE SYSTEMS</div>
+            <div class="footer-brand-tag">ADVANCED DEFENSE TECHNOLOGIES</div>
+          </div>
+        </div>
+        <p class="footer-mission">Pioneering autonomous aerial systems, swarm robotics, and total-spectrum counter-drone
+          defense for national security and critical infrastructure.</p>
+      </div>
+
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h4>UAV SYSTEMS</h4>
+          <ul>
+            <li><a href="#products">Spectre-X Stealth VTOL</a></li>
+            <li><a href="#products">Hydra-9 Swarm Matrix</a></li>
+            <li><a href="#products">Ghost Recon Micro UAV</a></li>
+            <li><a href="#products">Falcon-H Heavy Lifter</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>COUNTER-DRONE</h4>
+          <ul>
+            <li><a href="#products">Helios-100 Laser Turret</a></li>
+            <li><a href="#products">Cyber-Gun V2 RF Rifle</a></li>
+            <li><a href="#products">Eagle-Eye Radar Array</a></li>
+            <li><a href="#products">Net Interceptor Drone</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>ROBOTICS</h4>
+          <ul>
+            <li><a href="#robotics">Titan-6 Ground Robot</a></li>
+            <li><a href="#robotics">Aegis EOD Manipulator</a></li>
+            <li><a href="#robotics">Hydra-USV Patrol</a></li>
+            <li><a href="#robotics">Mole-X Tunnel Explorer</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>COMPLIANCE</h4>
+          <ul>
+            <li><a href="#">ITAR Export Compliance</a></li>
+            <li><a href="#">STANAG 4586 Standards</a></li>
+            <li><a href="#">Security Clearances</a></li>
+            <li><a href="#">NATO Interoperability</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 AeroForce Systems Inc. All Rights Reserved.</div>
+        <div class="footer-badges">
+          <span>SECURED // AES-256</span>
+          <span>ITAR COMPLIANT</span>
+          <span>SOC 2 TYPE II</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- PRODUCT MODAL -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="modalCloseBtn">&#10005;</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+
+
+  <!-- SCRIPTS -->
+  <script src="simulator.js"></script>
+  <script src="app.js"></script>
+  <script src="gis.js"></script>
+</body>
+
+</html>
