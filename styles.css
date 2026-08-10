@@ -520,8 +520,23 @@ button {
 .hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
   gap: 5px;
-  padding: 6px;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: var(--transition);
+  z-index: 9002;
+}
+
+.hamburger:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: var(--yellow);
 }
 
 .hamburger span {
@@ -529,8 +544,22 @@ button {
   width: 22px;
   height: 2px;
   background: var(--yellow);
-  transition: var(--transition);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
   border-radius: 2px;
+  transform-origin: center;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ═══════════════════════════════════════════
@@ -2065,36 +2094,6 @@ button {
   display: none;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 1100px) {
-  .gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .gallery-grid {
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 200px;
-  }
-
-  .gallery-item--large {
-    grid-column: span 2;
-    grid-row: span 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 220px;
-  }
-
-  .gallery-item--large {
-    grid-column: span 1;
-  }
-}
-
 /* ═══════════════════════════════════════════
    GIS SECTION
 ══════════════════════════════════════════════ */
@@ -2456,28 +2455,6 @@ button {
   padding: 0 8px;
 }
 
-/* Responsive */
-@media (max-width: 1100px) {
-  .gis-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 640px) {
-  .gis-workflow-steps {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .gis-step-arrow {
-    transform: rotate(90deg);
-  }
-
-  .gis-stats-block {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 /* ═══════════════════════════════════════════
    CONTACT SECTION
 ══════════════════════════════════════════════ */
@@ -2613,8 +2590,6 @@ button {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-}
-  padding: 36px;
 }
 
 .form-group {
@@ -2978,9 +2953,27 @@ button {
 }
 
 /* ═══════════════════════════════════════════
-   RESPONSIVE
+   UNIFIED RESPONSIVE SYSTEM
+   Breakpoints:
+   - 1200px: Laptops / Desktop standard
+   - 992px: Tablets / Medium Viewports (Mobile Nav Trigger)
+   - 768px: Phablets / Large Mobiles
+   - 576px: Standard Smartphones
+   - 380px: Small Screen Devices
 ══════════════════════════════════════════════ */
-@media (max-width: 1100px) {
+
+/* ─── 1200px BREAKPOINT ─── */
+@media (max-width: 1200px) {
+  .nav-container {
+    padding: 0 24px;
+    gap: 20px;
+  }
+
+  .hero-content-wrapper {
+    padding: 110px 24px 70px;
+    max-width: 760px;
+  }
+
   .robotics-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -2990,18 +2983,97 @@ button {
     grid-row: 1;
   }
 
+  .gis-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .footer-links-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 900px) {
-  .nav-links {
-    display: none;
-  }
-
+/* ─── 992px BREAKPOINT (TABLET & MOBILE NAV TRIGGER) ─── */
+@media (max-width: 992px) {
   .hamburger {
     display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(8, 8, 8, 0.97);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 24px 40px;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+    overflow-y: auto;
+    z-index: 9001;
+  }
+
+  .nav-links.mobile-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links .nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: var(--transition);
+  }
+
+  .nav-links .nav-link:hover,
+  .nav-links .nav-link.active {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.25);
+    color: var(--yellow);
+    padding-left: 24px;
+  }
+
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 9000;
+  }
+
+  .nav-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hud-element {
+    display: none;
   }
 
   .contact-cards-row {
@@ -3020,23 +3092,71 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .hud-element {
-    display: none;
-  }
-
   .footer-top {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 28px;
   }
 }
 
-@media (max-width: 640px) {
+/* ─── 768px BREAKPOINT (PHABLETS & LARGE MOBILES) ─── */
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
+  }
+
+  .hero-badge {
+    font-size: 0.58rem;
+    padding: 4px 10px;
+    margin-bottom: 12px;
+  }
+
+  .hero-bg-converter {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+
+  .converter-label {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
   .hero-title {
-    font-size: clamp(2.5rem, 12vw, 4rem);
+    font-size: clamp(2.2rem, 8.5vw, 3.2rem);
+    line-height: 1.15;
+  }
+
+  .hero-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .btn-primary-hero,
+  .btn-outline-hero {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 14px 20px;
   }
 
   .hero-stats {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
   }
 
   .hstat-divider {
@@ -3044,24 +3164,117 @@ button {
   }
 
   .hstat {
-    min-width: 45%;
+    min-width: 0;
+    padding: 14px 16px;
+    background: rgba(14, 14, 14, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 8px;
   }
 
   .tech-tab-bar {
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .tech-tab {
+    justify-content: flex-start;
+    padding: 12px 16px;
   }
 
   .filter-bar {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
 
   .search-box {
-    order: 10;
     width: 100%;
+    order: -1;
   }
 
   .search-input {
     width: 100%;
+    height: 44px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px;
+  }
+
+  .gallery-item--large {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .gis-workflow-steps {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gis-step-arrow {
+    transform: rotate(90deg);
+    padding: 4px 0;
+  }
+
+  .modal-box {
+    padding: 28px 20px;
+    max-width: 94%;
+    max-height: 88vh;
+  }
+}
+
+/* ─── 576px BREAKPOINT (STANDARD SMARTPHONES) ─── */
+@media (max-width: 576px) {
+  .nav-container {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 0.95rem;
+  }
+
+  .cta-btn {
+    font-size: 0.62rem;
+    padding: 7px 12px;
+  }
+
+  .hero-content-wrapper {
+    padding: 95px 16px 40px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.9rem, 7.5vw, 2.6rem);
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .hstat-num {
+    font-size: 1.5rem;
+  }
+
+  .hstat-label {
+    font-size: 0.55rem;
+  }
+
+  .sql-query-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .sql-meta {
+    align-self: flex-end;
   }
 
   .robotics-grid {
@@ -3072,16 +3285,71 @@ button {
     grid-column: auto;
   }
 
-  .form-row-2 {
-    grid-template-columns: 1fr;
+  #robotCanvas {
+    height: 210px;
   }
 
   .contact-cards-row {
     grid-template-columns: 1fr;
   }
 
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+
   .checkbox-grp-horizontal {
     grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 220px;
+  }
+
+  .gallery-item--large {
+    grid-column: span 1;
+  }
+
+  .spec-table-wrap {
+    margin: 0 -16px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .spec-table th,
+  .spec-table td {
+    padding: 10px 12px;
+    font-size: 0.7rem;
+  }
+
+  .rctrl-btn {
+    min-height: 44px;
+    padding: 12px;
+  }
+
+  .gis-ctrl-btn {
+    min-height: 40px;
+    padding: 8px 12px;
+  }
+
+  .gis-stats-block {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .modal-box {
+    padding: 22px 16px;
+    border-radius: 10px;
+  }
+
+  #modalContent .modal-specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
 
   .footer-bottom {
@@ -3092,16 +3360,339 @@ button {
 
   .footer-badges {
     justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* ─── 380px BREAKPOINT (SMALL MOBILE SCREENS) ─── */
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
   }
 
   .footer-links-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr;
   }
 
-  .sql-query-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+  .tech-tab {
+    font-size: 0.65rem;
   }
+
+  .modal-box {
+    padding: 18px 12px;
+  }
+}
+
+/* ===================================================
+   RESPONSIVE CSS GRID SYSTEM (MOBILE, TABLET, LAPTOP)
+   Custom layout engine for AeroForce Systems
+   =================================================== */
+
+/* ─── GRID CONTAINERS & BASE UTILITIES ─── */
+.af-grid {
+  display: grid;
+  width: 100%;
+  gap: var(--grid-gap, 20px);
+}
+
+/* 12 Column Grid System */
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--grid-gap, 20px);
+}
+
+/* Standard Preset Grids */
+.grid-1 { grid-template-columns: 1fr; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-6 { grid-template-columns: repeat(6, 1fr); }
+
+/* Fluid Responsive Auto-Fit & Auto-Fill Grids */
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--col-min-w, 260px), 1fr));
+  gap: var(--grid-gap, 20px);
+}
+
+.grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--col-min-w, 260px), 1fr));
+  gap: var(--grid-gap, 20px);
+}
+
+/* Responsive Preset Layouts */
+.grid-responsive-1-2-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap, 20px);
+}
+
+.grid-responsive-1-3-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap, 20px);
+}
+
+/* Column Spans */
+.col-span-1 { grid-column: span 1 / span 1; }
+.col-span-2 { grid-column: span 2 / span 2; }
+.col-span-3 { grid-column: span 3 / span 3; }
+.col-span-4 { grid-column: span 4 / span 4; }
+.col-span-5 { grid-column: span 5 / span 5; }
+.col-span-6 { grid-column: span 6 / span 6; }
+.col-span-7 { grid-column: span 7 / span 7; }
+.col-span-8 { grid-column: span 8 / span 8; }
+.col-span-9 { grid-column: span 9 / span 9; }
+.col-span-10 { grid-column: span 10 / span 10; }
+.col-span-11 { grid-column: span 11 / span 11; }
+.col-span-12 { grid-column: span 12 / span 12; }
+.col-span-full { grid-column: 1 / -1; }
+
+/* Grid Gap Utilities */
+.gap-xs { gap: 8px; }
+.gap-sm { gap: 14px; }
+.gap-md { gap: 20px; }
+.gap-lg { gap: 32px; }
+.gap-xl { gap: 48px; }
+
+/* ─── MEDIA QUERIES FOR MOBILE, TABLET, AND LAPTOP ─── */
+
+/* 1. LAPTOP & DESKTOP (min-width: 1025px) */
+@media (min-width: 1025px) {
+  .grid-responsive-1-2-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .grid-responsive-1-3-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .laptop-span-1 { grid-column: span 1; }
+  .laptop-span-2 { grid-column: span 2; }
+  .laptop-span-3 { grid-column: span 3; }
+  .laptop-span-4 { grid-column: span 4; }
+  .laptop-span-6 { grid-column: span 6; }
+  .laptop-span-8 { grid-column: span 8; }
+  .laptop-span-12 { grid-column: span 12; }
+}
+
+/* 2. TABLET (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grid-responsive-1-2-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-responsive-1-3-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tablet-span-1 { grid-column: span 1; }
+  .tablet-span-2 { grid-column: span 2; }
+  .tablet-span-3 { grid-column: span 3; }
+  .tablet-span-4 { grid-column: span 4; }
+  .tablet-span-6 { grid-column: span 6; }
+  .tablet-span-12 { grid-column: span 12; }
+}
+
+/* 3. MOBILE (< 768px) */
+@media (max-width: 767px) {
+  .grid-12,
+  .grid-6,
+  .grid-4,
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-responsive-1-2-4,
+  .grid-responsive-1-3-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .col-span-mobile-1 { grid-column: span 1; }
+  .col-span-mobile-full { grid-column: 1 / -1; }
+}
+
+/* ─── GRID MATRIX SHOWCASE SECTION STYLES ─── */
+.grid-matrix-section {
+  background: var(--black-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--black-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+}
+
+.grid-preset-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.preset-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--yellow);
+  letter-spacing: 1px;
+}
+
+.grid-preset-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 8px 14px;
+  background: rgba(255, 215, 0, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.grid-preset-btn:hover,
+.grid-preset-btn.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.viewport-indicator-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--gray-1);
+}
+
+.vp-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--green);
+}
+
+.demo-grid-wrapper {
+  background: var(--black-4);
+  border: 1px dashed rgba(255, 215, 0, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.grid-demo-card {
+  background: var(--black-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.grid-demo-card:hover {
+  border-color: var(--yellow);
+  box-shadow: var(--glow-sm);
+  transform: translateY(-2px);
+}
+
+.gcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gcard-badge {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--yellow);
+  background: rgba(255, 215, 0, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.gcard-device {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.gcard-title {
+  font-family: var(--heading);
+  font-size: 0.95rem;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.gcard-desc {
+  font-size: 0.82rem;
+  color: var(--gray-1);
+  line-height: 1.5;
+}
+
+.gcard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+
+.gcard-meta { color: var(--yellow); }
+.gcard-tag { color: var(--text-muted); }
+
+.bp-card {
+  background: var(--black-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.bp-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.bp-title {
+  font-family: var(--heading);
+  font-size: 0.9rem;
+  color: var(--yellow);
+}
+
+.bp-query {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.bp-list {
+  font-size: 0.8rem;
+  color: var(--gray-1);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }

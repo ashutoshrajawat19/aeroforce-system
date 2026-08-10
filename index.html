@@ -67,6 +67,7 @@
         <li><a href="#robotics" class="nav-link">ROBOTICS</a></li>
         <li><a href="#specifications" class="nav-link">SPECS DB</a></li>
         <li><a href="#radar" class="nav-link">RADAR SIM</a></li>
+        <li><a href="#grid-matrix" class="nav-link">GRID MATRIX</a></li>
         <li><a href="#gallery" class="nav-link">GALLERY</a></li>
         <li><a href="#gis" class="nav-link">GIS</a></li>
         <li><a href="#contact" class="nav-link">CONTACT</a></li>
@@ -502,6 +503,129 @@
               <div class="log-info">[BOOT] Radar engine v4.2 initialized</div>
               <div class="log-ok">[READY] All countermeasures armed</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- ========== RESPONSIVE CSS GRID MATRIX SHOWCASE SECTION ========== -->
+  <section id="grid-matrix" class="section grid-matrix-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-tag">[ CSS GRID LAYOUT ENGINE ]</div>
+        <h2 class="section-title">RESPONSIVE <span class="text-yellow">GRID MATRIX</span> STRUCTURE</h2>
+        <p class="section-desc">Custom modular CSS Grid layout system engineered for seamless responsiveness across Mobile (&lt;768px), Tablet (768px–1024px), and Laptop (&gt;1024px) viewports.</p>
+      </div>
+
+      <!-- GRID CONTROL TOOLBAR -->
+      <div class="grid-controls-bar">
+        <div class="grid-preset-selector">
+          <span class="preset-label">VIEWPORT PRESET:</span>
+          <button class="grid-preset-btn active" data-grid-preset="responsive">⚡ AUTO RESPONSIVE (1-2-4)</button>
+          <button class="grid-preset-btn" data-grid-preset="12-col">📐 12-COLUMN SUBGRID</button>
+          <button class="grid-preset-btn" data-grid-preset="auto-fit">🔄 FLUID AUTO-FIT</button>
+        </div>
+        <div class="viewport-indicator-badge">
+          <span class="vp-dot"></span>
+          <span class="vp-text" id="viewportStatusText">SCREEN: ACTIVE BREAKPOINT</span>
+        </div>
+      </div>
+
+      <!-- DEMO GRID CONTAINER -->
+      <div class="demo-grid-wrapper">
+        <div class="af-grid grid-responsive-1-2-4 gap-md" id="demoGridContainer">
+          <!-- GRID CARD 1 -->
+          <div class="grid-demo-card col-span-mobile-1 tablet-span-1 laptop-span-1">
+            <div class="gcard-header">
+              <span class="gcard-badge">COL 01</span>
+              <span class="gcard-device">MOBILE: 100% | TABLET: 50% | LAPTOP: 25%</span>
+            </div>
+            <h3 class="gcard-title">PRIMARY RADAR SENSOR</h3>
+            <p class="gcard-desc">Active electronically scanned array providing 360-degree situational awareness.</p>
+            <div class="gcard-footer">
+              <span class="gcard-meta">SPAN: 1 COL</span>
+              <span class="gcard-tag">GRID ITEM</span>
+            </div>
+          </div>
+
+          <!-- GRID CARD 2 -->
+          <div class="grid-demo-card col-span-mobile-1 tablet-span-1 laptop-span-1">
+            <div class="gcard-header">
+              <span class="gcard-badge">COL 02</span>
+              <span class="gcard-device">MOBILE: 100% | TABLET: 50% | LAPTOP: 25%</span>
+            </div>
+            <h3 class="gcard-title">AI SWARM NODE</h3>
+            <p class="gcard-desc">Edge neural processing unit dynamically allocating drone mission parameters.</p>
+            <div class="gcard-footer">
+              <span class="gcard-meta">SPAN: 1 COL</span>
+              <span class="gcard-tag">GRID ITEM</span>
+            </div>
+          </div>
+
+          <!-- GRID CARD 3 -->
+          <div class="grid-demo-card col-span-mobile-1 tablet-span-1 laptop-span-1">
+            <div class="gcard-header">
+              <span class="gcard-badge">COL 03</span>
+              <span class="gcard-device">MOBILE: 100% | TABLET: 50% | LAPTOP: 25%</span>
+            </div>
+            <h3 class="gcard-title">RF COUNTERMEASURES</h3>
+            <p class="gcard-desc">Multi-band signal disruption targeting unauthorized telemetry frequencies.</p>
+            <div class="gcard-footer">
+              <span class="gcard-meta">SPAN: 1 COL</span>
+              <span class="gcard-tag">GRID ITEM</span>
+            </div>
+          </div>
+
+          <!-- GRID CARD 4 -->
+          <div class="grid-demo-card col-span-mobile-1 tablet-span-1 laptop-span-1">
+            <div class="gcard-header">
+              <span class="gcard-badge">COL 04</span>
+              <span class="gcard-device">MOBILE: 100% | TABLET: 50% | LAPTOP: 25%</span>
+            </div>
+            <h3 class="gcard-title">LASER INTERCEPTOR</h3>
+            <p class="gcard-desc">Precision optical tracking diode delivering thermal hard-kill engagement.</p>
+            <div class="gcard-footer">
+              <span class="gcard-meta">SPAN: 1 COL</span>
+              <span class="gcard-tag">GRID ITEM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BREAKPOINT CHEATSHEET CARDS -->
+        <div class="breakpoint-cards-grid grid-12 gap-md" style="margin-top: 28px;">
+          <div class="bp-card col-span-12 laptop-span-4 tablet-span-6">
+            <div class="bp-icon">📱</div>
+            <div class="bp-title">MOBILE STRUCTURE</div>
+            <div class="bp-query">&lt; 768px Viewport</div>
+            <ul class="bp-list">
+              <li>• Single column auto-stack</li>
+              <li>• 100% width fluid items</li>
+              <li>• Compact 14px grid gaps</li>
+              <li>• Touch-optimized padding</li>
+            </ul>
+          </div>
+
+          <div class="bp-card col-span-12 laptop-span-4 tablet-span-6">
+            <div class="bp-icon">📐</div>
+            <div class="bp-title">TABLET STRUCTURE</div>
+            <div class="bp-query">768px – 1024px Viewport</div>
+            <ul class="bp-list">
+              <li>• 2 to 3 column layout</li>
+              <li>• Balanced multi-span cards</li>
+              <li>• Medium 20px grid gaps</li>
+              <li>• Hybrid touch / cursor UX</li>
+            </ul>
+          </div>
+
+          <div class="bp-card col-span-12 laptop-span-4 tablet-span-12">
+            <div class="bp-icon">💻</div>
+            <div class="bp-title">LAPTOP STRUCTURE</div>
+            <div class="bp-query">&gt; 1024px Viewport</div>
+            <ul class="bp-list">
+              <li>• 4 to 12 column grid matrix</li>
+              <li>• Subgrid &amp; explicit spans</li>
+              <li>• Wide 24px–36px grid gaps</li>
+              <li>• Max-width 1360px container</li>
+            </ul>
           </div>
         </div>
       </div>

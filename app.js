@@ -1971,23 +1971,50 @@ function initTicker() {
 function initHamburger() {
   const btn = document.getElementById('hamburgerBtn');
   const links = document.getElementById('navLinks');
+  let backdrop = document.getElementById('navBackdrop');
+
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    backdrop.id = 'navBackdrop';
+    document.body.appendChild(backdrop);
+  }
+
   if (!btn || !links) return;
-  btn.addEventListener('click', () => {
-    const open = links.style.display === 'flex';
-    links.style.display = open ? 'none' : 'flex';
-    links.style.position = 'fixed';
-    links.style.top = '70px';
-    links.style.left = '0';
-    links.style.right = '0';
-    links.style.flexDirection = 'column';
-    links.style.background = 'rgba(8,8,8,0.98)';
-    links.style.borderBottom = '1px solid rgba(255,215,0,0.15)';
-    links.style.padding = '20px';
-    links.style.gap = '12px';
-    links.style.backdropFilter = 'blur(20px)';
+
+  function closeMenu() {
+    links.classList.remove('mobile-open');
+    btn.classList.remove('active');
+    backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function openMenu() {
+    links.classList.add('mobile-open');
+    btn.classList.add('active');
+    backdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (links.classList.contains('mobile-open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
+
+  backdrop.addEventListener('click', closeMenu);
+
   links.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => { links.style.display = 'none'; });
+    a.addEventListener('click', closeMenu);
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && links.classList.contains('mobile-open')) {
+      closeMenu();
+    }
   });
 }
 
@@ -2068,3 +2095,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 })();
+
+/* ═══════════════════════════════════════════
+   GRID MATRIX LAYOUT CONTROLLER
+══════════════════════════════════════════════ */
+(function initGridMatrixController() {
+  const container = document.getElementById('demoGridContainer');
+  const presetBtns = document.querySelectorAll('.grid-preset-btn');
+  const statusText = document.getElementById('viewportStatusText');
+
+  if (!container || !presetBtns.length) return;
+
+  // Viewport breakpoint status update
+  function updateViewportStatus() {
+    if (!statusText) return;
+    const width = window.innerWidth;
+    let mode = 'LAPTOP / DESKTOP (WIDE)';
+    if (width < 768) {
+      mode = `MOBILE (${width}px < 768px)`;
+    } else if (width <= 1024) {
+      mode = `TABLET (${width}px: 768px–1024px)`;
+    } else {
+      mode = `LAPTOP / DESKTOP (${width}px > 1024px)`;
+    }
+    statusText.textContent = `SCREEN: ${mode}`;
+  }
+
+  updateViewportStatus();
+  window.addEventListener('resize', updateViewportStatus);
+
+  // Preset buttons handler
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      presetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const preset = btn.getAttribute('data-grid-preset');
+
+      // Reset classes
+      container.className = 'af-grid gap-md';
+
+      if (preset === 'responsive') {
+        container.classList.add('grid-responsive-1-2-4');
+      } else if (preset === '12-col') {
+        container.classList.add('grid-12');
+      } else if (preset === 'auto-fit') {
+        container.classList.add('grid-auto-fit');
+      }
+    });
+  });
+})();
+
